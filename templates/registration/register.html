@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'style2.css' %}">
+</head>
+<body>
+    <form class="register-container" action="" method="post">
+        {% csrf_token %}
+        <h2>Регистрация</h2>
+        
+        <input class="input-field" type="text" name="username" placeholder="Имя пользователя" value="{{ form.username.value|default:'' }}" required>
+        {% if form.username.errors %}
+            <p class="error">{{ form.username.errors.0 }}</p>
+        {% endif %}
+
+        <input class="input-field" type="email" name="email" placeholder="E-mail" value="{{ form.email.value|default:'' }}" required>
+        {% if form.email.errors %}
+            <p class="error">{{ form.email.errors.0 }}</p>
+        {% endif %}
+
+        <input class="input-field" type="text" name="bank_card" placeholder="Номер карты (16 цифр)" value="{{ form.bank_card.value|default:'' }}">
+        {% if form.bank_card.errors %}
+            <p class="error">{{ form.bank_card.errors.0 }}</p>
+        {% endif %}
+        
+        <div class="row-fields">
+            <input class="input-field small" type="text" name="cvc" placeholder="CVC (3 цифры)" value="{{ form.cvc.value|default:'' }}" maxlength="3">
+            {% if form.cvc.errors %}
+                <p class="error">{{ form.cvc.errors.0 }}</p>
+            {% endif %}
+            
+            <input class="input-field small" type="text" name="card_data" placeholder="Данные карты (срок/тип)" value="{{ form.card_data.value|default:'' }}">
+            {% if form.card_data.errors %}
+                <p class="error">{{ form.card_data.errors.0 }}</p>
+            {% endif %}
+        </div>
+        
+        <input class="input-field" type="password" name="password1" placeholder="Пароль" required>
+        {% if form.password1.errors %}
+            <p class="error">{{ form.password1.errors.0 }}</p>
+        {% endif %}
+
+        <input class="input-field" type="password" name="password2" placeholder="Пароль еще раз" required>
+        {% if form.password2.errors %}
+            <p class="error">{{ form.password2.errors.0 }}</p>
+        {% endif %}
+
+        <div class="action-buttons">
+            <button class="btn login-btn" onclick="window.location.href='/login'">Войти</button>
+            <button class="btn register-btn green-btn" type="submit">Регистрация</button>
+        </div>
+    </form>
+</body>
+</html>
