@@ -20,6 +20,7 @@ class Products(models.Model):
     img = models.CharField(max_length=255)
     count_in_storage = models.IntegerField()
     price = models.IntegerField()
+    size = models.IntegerField()
     
     def __str__(self):
         return self.id, self.name

@@ -1,0 +1,55 @@
+{% extends "main/index.html" %}
+{% load static %}
+{% block title %}Ваши заказы{% endblock title %}
+{% block content %}
+        <div class="content-container">  
+            <h1 class="page-title">Graffitty</h1> 
+            <h2 class="section-title">Ваши заказы</h2> 
+
+            <hr class="divider">
+            {% if usr_orders_list %}
+            
+                {% for order in usr_orders_list %}
+                    <div class="order-card"> 
+                        <div class="order-header">
+                            <h3 class="order-product-title">{{order.product.name}}</h3>
+                            <span class="order-volume">{{order.product.size}}ml</span>
+                        </div>
+                        
+                        <div class="order-details">
+                            <div class="order-detail-item">
+                                <span class="detail-label">Дата:</span>
+                                <span class="detail-value">{{order.created_at}}</span>
+                            </div>
+                            <div class="order-detail-item">
+                                <span class="detail-label">Количество:</span>
+                                <span class="detail-value">{{order.quantity}} шт</span>
+                            </div>
+                            <div class="order-detail-item">
+                                <span class="detail-label">Статус:</span>
+                                {% if order.status == 'processing'%}
+                                    <span class="detail-value status-processing">В обработке</span>
+                                {% elif order.status == 'completed' %}
+                                    <span class="detail-value status-delivered">Доставлен</span>
+                                {% else %}
+                                    <span class="detail-value status-delivered">no status</span>
+                                {% endif %}
+                            </div>
+                            <div class="order-detail-item">
+                                <span class="detail-label">Общая сумма:</span>
+                                <span class="detail-value">{% widthratio order.product.price 1 order.quantity %} р</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="item-separator">
+                {% endfor %}
+            {% else %}
+                <h1>У вас нет заказов</h1>
+            {% endif %}
+            <hr class="divider">
+            <div class="checkout-section">
+                <a href="/" class="checkout-btn">В католог</a>
+            </div>
+        </div>
+{% endblock content %}

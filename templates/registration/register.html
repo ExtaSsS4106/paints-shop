@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
-    <link rel="stylesheet" href="{% static 'style2.css' %}">
+    <link rel="stylesheet" href="{% static 'register.css' %}">
 </head>
 <body>
     <form class="register-container" action="" method="post">
@@ -38,7 +38,12 @@
                 <p class="error">{{ form.card_data.errors.0 }}</p>
             {% endif %}
         </div>
-        
+
+        <input type="text" class="input-field" placeholder="Адрес доставки" name="address" value="">
+        {% if form.address.errors %}
+            <p class="error">{{ form.address.errors.0 }}</p>
+        {% endif %}
+
         <input class="input-field" type="password" name="password1" placeholder="Пароль*" required>
         {% if form.password1.errors %}
             <p class="error">{{ form.password1.errors.0 }}</p>

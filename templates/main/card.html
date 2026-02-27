@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить карту оплаты</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="card-page">  
+    <div class="site-wrapper"> 
+        <form class="payment-container" method="post">
+            {% csrf_token %}
+            <h2>Добавить карту оплаты</h2>
+            
+            {% if form.bank_card.errors %}
+                <input class="input-field input-field-error" type="text" name="bank_card" placeholder="Номер карты (16 цифр)" value="{{ form.bank_card.value|default:'' }}">
+            {% else %}
+                <input class="input-field" type="text" name="bank_card" placeholder="Номер карты (16 цифр)" value="{{ form.bank_card.value|default:'' }}">
+            {% endif %}
+            
+            <div class="row-fields">
+                {% if form.cvc.errors %}
+                    <input class="input-field small input-field-error" type="text" name="cvc" placeholder="CVC (3 цифры)" value="{{ form.cvc.value|default:'' }}" maxlength="3">
+                {% else %}
+                    <input class="input-field small" type="text" name="cvc" placeholder="CVC (3 цифры)" value="{{ form.cvc.value|default:'' }}" maxlength="3">
+                {% endif %}
+                
+                {% if form.card_data.errors %}
+                    <input class="input-field small input-field-error" type="text" name="card_data" placeholder="Данные карты (срок/тип)" value="{{ form.card_data.value|default:'' }}">
+                {% else %}
+                    <input class="input-field small" type="text" name="card_data" placeholder="Данные карты (срок/тип)" value="{{ form.card_data.value|default:'' }}">
+                {% endif %}
+            </div>
+            
+            {% if form.address.errors %}
+                <input type="text" class="input-field input-field-error" placeholder="Адрес доставки" name="address" value="">
+            {% else %}
+                <input type="text" class="input-field" placeholder="Адрес доставки" name="address" value="">
+            {% endif %}
+            <div class="action-buttons">
+                <button href="/user_cart" class="btn btn-cancel">Отменить</button>
+                <button type="submit" class="btn btn-add">Добавить карту</button>
+            </div>
+        </form>
+    </div>  
+</body>
+</html>
