@@ -133,6 +133,7 @@ def cart_actions(request, query):
             )
             product.quantity = product.quantity - 1
             product.save()
+            return JsonResponse({'quantity': product.quantity})
         elif query == 'add':
             data = json.loads(request.body)
             item = data.get('item') 
@@ -147,4 +148,5 @@ def cart_actions(request, query):
                 product.quantity += 1
                 print(product.quantity)
                 product.save()
-    return HttpResponse(status=200)
+            return JsonResponse({'quantity': product.quantity})
+    return JsonResponse({'quantity': product.quantity})
