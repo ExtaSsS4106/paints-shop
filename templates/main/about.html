@@ -1,0 +1,36 @@
+{% extends "main/index.html" %}
+{% load static %}
+{% block title %}Каталог товаров{% endblock title %}
+{% block content %}
+<div class="content-container">
+    <h1 class="page-title">Graffitty</h1>
+    <hr class="divider">
+    <div class="product-section">
+        <h2 class="section-title">О товаре:</h2>
+        
+        <div class="product-description">
+            <p class="description-text">
+                {{product.description}}
+            </p>
+        </div>
+    </div>
+    <hr class="divider">
+    <div class="purchase-section">
+        <div class="quantity-selector">
+            <span class="quantity-label">Количество:</span>
+            <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity-value">1</span>
+                <button class="quantity-btn plus">+</button>
+            </div>
+        </div>
+        <a href="korzina.html" class="btn btn-primary add-to-cart-btn">
+            <i class="fas fa-shopping-cart"></i> Добавить
+        </a>
+    </div>
+    <hr class="divider">
+    <div class="action-buttons">
+        <a href="/" class="btn btn-secondary">Закрыть</a>
+    </div>
+</div>
+{% endblock content %}

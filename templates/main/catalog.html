@@ -1,0 +1,51 @@
+{% extends "main/index.html" %}
+{% load static %}
+{% block title %}Каталог товаров{% endblock title %}
+{% block content %}
+<div class="content-container">
+    <div class="catalog-section">
+        <h2 class="catalog-title">Каталог</h2>
+        <form class="search-box" method="GET" action="{% url 'search' %}">
+            <input type="text" name="q" placeholder="Поиск в каталоге..." 
+                value="{{ query|default:'' }}">
+            <button type="submit" class="search-btn">Найти</button>
+        </form>
+    </div>
+    <hr class="divider">
+    <div class="products-grid">
+        {% if products %}
+            {% for product in products %}
+                <div class="product-card">
+                    <img src="{% static product.img %}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-title">{{product.name}}</h3>
+                        <div class="product-price">{{product.price}} р</div>
+                        <a href="about/product/{{product.id}}/" class="product-link">Узнать подробнее</a>
+                    </div>
+                    <button onclick="add_to_cart({{product.id}})" class="checkout-btn">В корзину</button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h1>Товары не найдены</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+    <script>
+    function add_to_cart(id) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+        
+        fetch(`/cart_actions/add/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({item: {id: id}})
+        });
+    }
+    </script>   
+{% endblock script %}
+

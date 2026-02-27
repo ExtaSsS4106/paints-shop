@@ -1,26 +1,36 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <h1>
-            {% if user.username %}
-                {{user.username}}
-            {% else %}
-                Not authorisated
-            {% endif %}
-        </h1>
-        <h1>
-            {% if user.profile.bank_card %}
-                {{user.profile.bank_card}}
-            {% else %}
-                no card found
-            {% endif %}
-        </h1>
-    </body>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- библиотека для иконок!!!! -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="catalog-page">  
+    {% csrf_token %}
+    <div class="site-wrapper">
+        <header class="main-header">
+            <div class="header-left">
+                <span class="project-name">Graffitty</span>
+            </div>
+            <div class="header-right">
+                <a href="/sign-up" class="header-link"><i class="fas fa-user"></i> Регистрация / Войти</a>
+                <a href="/user_cart" class="header-link"><i class="fas fa-shopping-cart"></i> Корзина</a>
+                <a href="/orders_list" class="header-link"><i class="fas fa-box"></i> Мои заказы</a>
+            </div>
+        </header>
+        {% block content %}
+  
+        {% endblock content %}
+        
+    </div>
+</body>
+
+{% block script %}
+
+{% endblock script %}
+
 </html>
