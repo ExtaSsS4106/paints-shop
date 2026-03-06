@@ -33,7 +33,7 @@
                 <p class="error">{{ form.cvc.errors.0 }}</p>
             {% endif %}
             
-            <input class="input-field small" type="text" name="card_data" placeholder="Данные карты (срок/тип)" value="{{ form.card_data.value|default:'' }}">
+            <input class="input-field small" type="text" name="card_data" placeholder="Срок" value="{{ form.card_data.value|default:'' }}">
             {% if form.card_data.errors %}
                 <p class="error">{{ form.card_data.errors.0 }}</p>
             {% endif %}

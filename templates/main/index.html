@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <!-- библиотека для иконок!!!! -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {% block style %}
+    
+    {% endblock style %}
 </head>
 <body class="catalog-page">  
     {% csrf_token %}
