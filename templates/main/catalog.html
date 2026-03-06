@@ -16,7 +16,7 @@
         {% if products %}
             {% for product in products %}
                 <div class="product-card">
-                    <img src="{% static product.img %}" class="product-image">
+                    <img src="{{product.img.url}}" class="product-image">
                     <div class="product-info">
                         <h3 class="product-title">{{product.name}}</h3>
                         <div class="product-price">{{product.price}} р</div>
@@ -44,8 +44,13 @@
                 'X-CSRFToken': csrfToken
             },
             body: JSON.stringify({item: {id: id}})
-        });
-    }
+        }).then(response => {
+            if (response.status === 200) {
+                console.log(response.url);
+                window.location.href = response.url;
+
+            }});
+        }
     </script>   
 {% endblock script %}
 

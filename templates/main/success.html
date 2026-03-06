@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата успешна</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="success-page">
+    <div class="site-wrapper">
+        <div class="success-container">
+            <h2>Оплата прошла успешно</h2>
+            <div class="checkmark">✓</div>
+            <div class="action-buttons">
+                <a href="{% url 'orders_list' %}" class="btn btn-primary">Перейти к заказам</a>
+                <a href="{% url 'catalog' %}" class="btn btn-secondary">В каталог</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

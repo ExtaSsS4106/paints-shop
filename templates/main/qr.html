@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Генератор QR-кода</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        #qrcode {
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="catalog-page">
+    <div class="content-container">
+        <h2>Генератор QR-кода</h2>
+        <div data-code="{{order.order_number}}" id="qrcode"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qrElement = document.getElementById('qrcode');
+            const orderNumber = qrElement.getAttribute('data-code');
+            
+            function generateQR(text) {
+                // Очищаем предыдущий QR-код
+                qrElement.innerHTML = '';
+
+                // Создаем новый QR-код
+                new QRCode(qrElement, {
+                    text: text,
+                    width: 256,
+                    height: 256,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+            
+            // Используем номер заказа как текст для QR-кода
+            if (orderNumber) {
+                generateQR(orderNumber);
+            }
+        });
+    </script>
+</body>
+</html>

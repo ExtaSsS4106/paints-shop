@@ -13,17 +13,18 @@
     {% csrf_token %}
     <div class="site-wrapper">
         <header class="main-header">
-            <div class="header-left">
+            <div onclick="window.location.href = '/';" class="header-left">
                 <span class="project-name">Graffitty</span>
             </div>
             <div class="header-right">
                 {% if user.username %}
-                    <a href="/logout" class="header-link"><i class="fas fa-user"></i>Выйти</a>
+                    <a href="/profile" class="header-link"><i class="fas fa-user"></i>{{user.username}}</a>
+                    <a href="/user_cart" class="header-link"><i class="fas fa-shopping-cart"></i> Корзина</a>
+                    <a href="/orders_list" class="header-link"><i class="fas fa-box"></i> Мои заказы</a>
                 {% else %}
-                    <a href="/sign-up" class="header-link"><i class="fas fa-user"></i> Регистрация / Войти</a>
+                    <a href="/login" class="header-link"><i class="fas fa-user"></i> Регистрация / Войти</a>
                 {% endif %}
-                <a href="/user_cart" class="header-link"><i class="fas fa-shopping-cart"></i> Корзина</a>
-                <a href="/orders_list" class="header-link"><i class="fas fa-box"></i> Мои заказы</a>
+
             </div>
         </header>
         {% block content %}

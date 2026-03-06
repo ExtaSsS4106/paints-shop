@@ -21,4 +21,10 @@ urlpatterns = [
     
     path('search/', views.search, name='search'),
     path('cart_actions/<str:query>/', views.cart_actions, name='cart_actions'),
+    
+    path('profile', views.profile, name="profile"),
+    path('success', views.success, name="success"),
+    path('error_payment', views.error_payment, name="error_payment"),
+    
+    path('qr/<str:order_number>/', views.qr, name="qr"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -17,7 +17,7 @@ class UserProfile(models.Model):
 class Products(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True)
-    img = models.CharField(max_length=255)
+    img = models.ImageField(upload_to='image/')
     count_in_storage = models.IntegerField()
     price = models.IntegerField()
     size = models.IntegerField()

@@ -9,26 +9,26 @@
     {% if usr_cart %}
         {% for item in usr_cart %}
             <div class="cart-item">
-                <img src="{% static item.product.img %}" class="product-image">
+                <img src="{{item.product.img.url}}" class="product-image">
                 <div class="quantity-selector">
                     <span class="quantity-label">Количество:</span>
                     <div class="quantity-controls">
                         <button onclick="add_or_delete_count_in_cart({{item.product.id}}, 'minus')" class="quantity-btn minus">-</button>
-                        <span id="span-quantity" class="quantity-value">{{item.quantity}}</span>
+                        <span id="span-quantity-{{item.product.id}}" class="quantity-value">{{item.quantity}}</span>
                         <button onclick="add_or_delete_count_in_cart({{item.product.id}}, 'plus')" class="quantity-btn plus">+</button>
                     </div>
                 </div>
                 <div class="item-details">
                     <h3 class="item-title">{{item.product.name}}</h3>
-                    <span class="item-price">{% widthratio item.product.price 1 item.quantity %} р</span>
+                    <span id="price-{{item.product.id}}" class="item-price">{% widthratio item.product.price 1 item.quantity %} р</span>
                 </div>
-                <div id="quantity" class="item-quantity">{{item.quantity}} шт.</div>
+                <div id="quantity-{{item.product.id}}" class="item-quantity">{{item.quantity}} шт.</div>
             </div>
             <hr class="item-separator">   
         {% endfor %}
         <hr class="divider">
         <div class="checkout-section">
-            <a href="create_orders" class="checkout-btn">Оформить заказ</a>
+            <a onclick='create_orders();' class="checkout-btn">Оформить заказ</a>
         </div>
     {% else %}
         <h1>Пусто</h1>
@@ -42,10 +42,28 @@
 
 {% block script %}
     <script>
+    
+    async function create_orders() {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+            const response = await fetch(`/create_orders`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({action: 'creating_orders'})
+            }).then(response => {
+            if (response.status === 200) {
+                console.log(response.url);
+                window.location.href = response.url;
+
+            }});
+        }
     async function add_or_delete_count_in_cart(id, type) {
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
-        const quantity = document.getElementById('quantity');
-        const span_quantity = document.getElementById('span-quantity');
+        const quantity = document.getElementById(`quantity-${id}`);
+        const span_quantity = document.getElementById(`span-quantity-${id}`);
+        const price = document.getElementById(`price-${id}`);
         if (type == 'plus') {
             const response = await fetch(`/cart_actions/add/`, {
                 method: 'POST',
@@ -58,6 +76,7 @@
             const data = await response.json();
             quantity.innerText = data.quantity
             span_quantity.innerText = data.quantity
+            price.innerText = data.price
 
         }else if(type == 'minus'){
             if (parseInt(quantity.innerText) <= 1){
@@ -82,6 +101,7 @@
                 const data = await response.json();
                 quantity.innerText = data.quantity
                 span_quantity.innerText = data.quantity
+                price.innerText = data.price
             }
         }
 

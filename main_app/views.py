@@ -33,10 +33,18 @@ def sign_up(request):
 
 
 
+@login_required
+def success(request):
+    return render(request, 'main/success.html')
+
+@login_required
+def error_payment(request):
+    return render(request, 'errors/error_payment.html')
 
 
 
-
+def custom_404(request, exception):
+    return render(request, 'errors/404.html', status=404)
 
 # Функционал приложения
 
@@ -57,8 +65,13 @@ def user_cart(request):
 
 @login_required(login_url='/login')
 def orders_list(request):
-    usr_orders_list = Orders.objects.filter(user=request.user)
+    usr_orders_list = Orders.objects.filter(user=request.user).order_by('-id')
     return render(request, 'main/orders.html', {'usr_orders_list':usr_orders_list})
+
+@login_required(login_url='/login')
+def qr(request, order_number):
+    order = Orders.objects.get(order_number=order_number, user=request.user)
+    return render(request, 'main/qr.html', {'order':order})
 
 
 @login_required(login_url='/login')
@@ -82,27 +95,33 @@ def add_card(request):
 
 @login_required(login_url='/login')
 def create_orders(request):
-    try:
-        profile = UserProfile.objects.get(user=request.user)
-    except UserProfile.DoesNotExist:
-        return redirect('/add_card')
-    else:
-        user = request.user
-        orders = Cart.objects.filter(user=user)
-        for order in orders:
-            shipping_address = profile.address
-            product = order.product
-            quantity = order.quantity
-            if shipping_address and product and quantity:
-                orders_table = Orders.objects.create(
-                    user=user,
-                    status = Orders.PROCESSING,
-                    shipping_address = shipping_address,
-                    product = product,
-                    quantity = quantity
-                )
-                order.delete()
-    return redirect('/orders_list')
+    if request.method == 'POST':
+        try:
+            profile = UserProfile.objects.get(user=request.user)
+            if profile:
+                user = request.user
+                carts = Cart.objects.filter(user=user)
+                for cart in carts:
+                    shipping_address = profile.address
+                    product = cart.product
+                    quantity = cart.quantity
+                    if shipping_address and product and quantity:
+                        Orders.objects.create(
+                            user=user,
+                            status = Orders.PROCESSING,
+                            shipping_address = shipping_address,
+                            product = product,
+                            quantity = quantity
+                        )
+                        cart.delete()
+                return redirect('/success')
+            else:
+                return redirect('/add_card')
+        except UserProfile.DoesNotExist:
+            return redirect('/add_card')
+    else:    
+        return redirect('/orders_list')
+
 
 
 def search(request):
@@ -124,6 +143,7 @@ def cart_actions(request, query):
                 product__id=item.get('id')
             )
             product.delete()
+            return JsonResponse({'quantity': product.quantity}, status=201)
         elif query == 'minus':
             data = json.loads(request.body)
             item = data.get('item')
@@ -133,7 +153,7 @@ def cart_actions(request, query):
             )
             product.quantity = product.quantity - 1
             product.save()
-            return JsonResponse({'quantity': product.quantity})
+            return JsonResponse({'quantity': product.quantity, 'price': product.product.price * product.quantity }, status=201)
         elif query == 'add':
             data = json.loads(request.body)
             item = data.get('item') 
@@ -148,5 +168,9 @@ def cart_actions(request, query):
                 product.quantity += 1
                 print(product.quantity)
                 product.save()
-            return JsonResponse({'quantity': product.quantity})
-    return JsonResponse({'quantity': product.quantity})
+            return JsonResponse({'quantity': product.quantity, 'price': product.product.price * product.quantity }, status=201)
+    return redirect('/')
+
+@login_required
+def profile(request):
+    return render(request, 'main/profile.html')

@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ошибка оплаты</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="success-page"> <!-- Тот же класс -->
+    <div class="site-wrapper">
+        <div class="success-container"> <!-- Тот же контейнер -->
+            <h2>Ошибка оплаты</h2>
+            <div class="checkmark" style="color: #dc3545;">✗</div> <!-- Тот же класс, но красный крестик -->
+            <p style="color: #666; margin-bottom: 30px; font-size: 1.1em;">
+                К сожалению, не удалось обработать платеж
+            </p>
+            <div class="action-buttons"> <!-- Те же кнопки -->
+                <a href="javascript:history.back()" class="btn btn-primary">Попробовать снова</a>
+                <a href="{% url 'catalog' %}" class="btn btn-secondary">В каталог</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

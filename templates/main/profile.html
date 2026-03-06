@@ -1,0 +1,23 @@
+{% extends "main/index.html" %}
+{% load static %}
+{% block title %}{{user.username}}{% endblock title %}
+{% block content %}
+<div class="content-container">
+  <div class="profile-top">
+    <img src="{% static 'image/profile.png' %}">
+    <div class="userprofile">
+        <h1>{{user.username}}</h1>
+        <h2>{{user.email}}</h2>
+    </div>
+  <div class="btns-userprofile">
+    <div class="checkout-section">
+      <a href="/logout" class="checkout-btn red">Выйти</a>
+    </div>
+
+        <div class="checkout-section">
+      <a href="/add_card" class="checkout-btn">Изменить данные о карте</a>
+    </div>
+  </div>
+  </div>
+</div>
+{% endblock content %}

@@ -12,13 +12,21 @@
                 {% for order in usr_orders_list %}
                     <div class="order-card"> 
                         <div class="order-header">
+                            <img src="{{order.product.img.url}}" class="product-image">
+
                             <h3 class="order-product-title">{{order.product.name}}</h3>
-                            <span class="order-volume">{{order.product.size}}ml</span>
+                            <!--<span class="order-volume">{{order.product.size}}ml</span>-->
                         </div>
-                        
-                        <div class="order-details">
+                        <div class="order-header">
                             <div class="order-detail-item">
-                                <span class="detail-label">Дата:</span>
+                                <span class="detail-label">Номер заказа:</span>
+                                <span class="detail-value">{{order.order_number}}</span>
+                            </div>
+                        </div>
+                        <div class="order-details">
+
+                            <div class="order-detail-item">
+                                <span class="detail-label">Дата создания:</span>
                                 <span class="detail-value">{{order.created_at}}</span>
                             </div>
                             <div class="order-detail-item">
