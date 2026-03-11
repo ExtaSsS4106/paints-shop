@@ -17,6 +17,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-%e1&yy)fy^q7gbbt$jx(56d-mc*cgp+@v$#c0lriji-w4)c8g1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 SECURED_FIELDS_KEY = 'EsFbHjwLHlWFIFvnN22gbE6_YaTCNkImwZxdKhLZUlw='
 
@@ -129,3 +130,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+

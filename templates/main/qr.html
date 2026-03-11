@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Генератор QR-кода для заказа</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'qr.css' %}">
+</head>
+<body class="catalog-page">
+    <div class="site-wrapper">
+        <div class="content-container">
+            <h2>QR-код заказа</h2>
+            
+            <div data-code="{{order.order_number}}" id="qrcode"></div>
+            
+            <div class="order-badge">
+                Заказ №{{order.order_number}}
+            </div>
+
+            <div class="instructions">
+                <h3>Как использовать QR-код</h3>
+                <ul>
+                    <li>Покажите этот QR-код сотруднику на кассе</li>
+                    <li>Сотрудник отсканирует код для быстрого поиска заказа</li>
+                    <li>Вы также можете отсканировать код сами, чтобы увидеть детали заказа</li>
+                    <li>Сохраните этот код до получения заказа</li>
+                </ul>
+            </div>
+
+            <div class="qr-note">
+                QR-код содержит номер вашего заказа: <strong>{{order.order_number}}</strong>
+            </div>
+
+            <button onclick="history.back()" class="btn btn-add">Вернуться назад</button>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qrElement = document.getElementById('qrcode');
+            const orderNumber = qrElement.getAttribute('data-code');
+            
+            function generateQR(text) {
+                // Очищаем предыдущий QR-код
+                qrElement.innerHTML = '';
+
+                // Создаем новый QR-код с улучшенными настройками
+                new QRCode(qrElement, {
+                    text: text,
+                    width: 256,
+                    height: 256,
+                    colorDark: '#2c3e50',  // Темно-синий цвет для QR-кода
+                    colorLight: '#ffffff',  // Белый фон
+                    correctLevel: QRCode.CorrectLevel.H  // Высокий уровень коррекции ошибок
+                });
+            }
+            
+            // Используем номер заказа как текст для QR-кода
+            if (orderNumber) {
+                generateQR(orderNumber);
+            } else {
+                // Если нет номера заказа, показываем заглушку
+                generateQR('order-not-found');
+            }
+        });
+    </script>
+</body>
+</html>
